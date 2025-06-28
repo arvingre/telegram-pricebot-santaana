@@ -2,9 +2,18 @@ import logging
 import os
 import gspread
 import telegram
+import base64
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from oauth2client.service_account import ServiceAccountCredentials
+
+b64_data = os.getenv("GOOGLE_CREDENTIALS_B64")
+if b64_data:
+    with open("google-credentials.json", "wb") as f:
+        f.write(base64.b64decode(b64_data))
+else:
+    raise ValueError("GOOGLE_CREDENTIALS_B64 is not set")
+
 
 # === CONFIG ===
 BOT_TOKEN = os.getenv("BOT_TOKEN")
